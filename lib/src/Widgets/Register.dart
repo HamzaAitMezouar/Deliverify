@@ -1,8 +1,11 @@
+import 'package:deliverify/src/controllers/apis/RestaurantsApi.dart';
 import 'package:deliverify/src/controllers/apis/usersApi.dart';
-import 'package:deliverify/src/models/userModel.dart';
+import 'package:deliverify/src/models/googleModel.dart';
 import 'package:deliverify/src/utils/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
+import 'package:get/instance_manager.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
@@ -96,6 +99,9 @@ class _RegisterPageState extends State<RegisterPage> {
                               onPressed: key.currentState != null &&
                                       key.currentState!.validate()
                                   ? () {
+                                      Get.snackbar('Login Failed',
+                                          "Verify Your Email and password");
+
                                       setState(() {
                                         x = 1;
                                         y = 1;
@@ -133,16 +139,10 @@ class _RegisterPageState extends State<RegisterPage> {
                               onPressed: key.currentState != null &&
                                       key.currentState!.validate()
                                   ? () {
-                                      userModel user = userModel(
-                                          displayName: name,
-                                          email: email,
-                                          password: password);
                                       setState(() {
                                         x = 1;
                                         y = 1;
                                       });
-                                      usersApi().register(user);
-                                      user.displayName;
                                     }
                                   : null,
                               child: const Text('Register')),
@@ -152,7 +152,7 @@ class _RegisterPageState extends State<RegisterPage> {
             AnimatedContainer(
               duration: Duration(seconds: 3),
               alignment: Alignment(y, x),
-              height: size.height * 0.2,
+              height: size.height * 0.15,
               child: Lottie.network(
                   'https://assets4.lottiefiles.com/packages/lf20_e4lzqxv7.json'),
             ),

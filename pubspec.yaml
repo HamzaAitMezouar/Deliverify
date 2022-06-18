@@ -31,7 +31,16 @@ dependencies:
   flutter_custom_clippers: ^2.0.0
   google_fonts: ^3.0.1
   lottie:
+  flutter_facebook_auth: ^4.3.4+2
+  permission_handler: ^9.2.0
   google_sign_in: ^5.3.3
+  shared_preferences: ^2.0.15
+  google_maps_flutter: ^2.1.7
+  # Get User Adress --city to search reestaurants
+  geocoding: ^2.0.4
+  geolocator: ^8.2.1
+  internet_connection_checker: ^0.0.1+4
+  get: ^4.6.5
   flutter:
     sdk: flutter
 

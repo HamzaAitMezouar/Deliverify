@@ -1,19 +1,20 @@
-class userModel {
-  userModel({
+class GoogleModel {
+  GoogleModel({
     required this.displayName,
     required this.email,
-    required this.password,
+    required this.photoUrl,
     this.token,
   });
   late final String displayName;
   late final String email;
-  late final String password;
   late final String? token;
+  late final String photoUrl;
 
-  userModel.fromJson(Map<String, dynamic> json) {
+  GoogleModel.fromJson(Map<String, dynamic> json) {
     displayName = json['displayName'];
     email = json['email'];
-    password = json['password'];
+    ;
+    photoUrl = json['photoUrl'];
     token = json['token'];
   }
 
@@ -21,8 +22,8 @@ class userModel {
     final _data = <String, dynamic>{};
     _data['displayName'] = displayName;
     _data['email'] = email;
-    _data['password'] = password;
     _data['token'] = token;
+    _data['photoUrl'] = token;
     return _data;
   }
 }

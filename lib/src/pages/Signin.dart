@@ -1,8 +1,11 @@
+import 'package:deliverify/src/controllers/apis/facebookSignIn.dart';
 import 'package:deliverify/src/controllers/apis/googleSignIn.dart';
 import 'package:deliverify/src/utils/Constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../Widgets/Register.dart';
@@ -79,7 +82,7 @@ class _SignInState extends State<SignIn> {
                       builder: (context) => RegisterPage('Register')));
             },
             child: Text(
-              'Register',
+              '1'.tr,
               style: GoogleFonts.ebGaramond(
                 textStyle: TextStyle(
                     fontWeight: FontWeight.w500,
@@ -94,7 +97,7 @@ class _SignInState extends State<SignIn> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'You Already Have an Acount ?',
+              '3'.tr,
               style: TextStyle(
                   fontSize: 14,
                   color: Theme.of(context).hintColor.withOpacity(0.5)),
@@ -107,7 +110,7 @@ class _SignInState extends State<SignIn> {
                         builder: (context) => RegisterPage('Login')));
               },
               child: Text(
-                ' Login',
+                '2'.tr,
                 style: TextStyle(
                     fontWeight: FontWeight.w400,
                     fontSize: 16,
@@ -125,14 +128,16 @@ class _SignInState extends State<SignIn> {
         style: ElevatedButton.styleFrom(
             primary: const Color.fromARGB(255, 16, 45, 173),
             fixedSize: Size(size.width * 0.8, size.height * 0.06)),
-        onPressed: () {},
+        onPressed: () {
+          FacebookApi().signin();
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Icon(FontAwesomeIcons.facebook),
+          children: [
+            const Icon(FontAwesomeIcons.facebook),
             Text(
-              '  Sign In With Facebook ',
-              style: TextStyle(fontSize: 16),
+              '5'.tr,
+              style: const TextStyle(fontSize: 16),
             ),
           ],
         ));
@@ -143,14 +148,17 @@ class _SignInState extends State<SignIn> {
         style: ElevatedButton.styleFrom(
             primary: const Color.fromARGB(255, 219, 86, 76),
             fixedSize: Size(size.width * 0.8, size.height * 0.06)),
-        onPressed: () {},
+        onPressed: () {
+          GoogleSigninApi.login();
+          Get.offAllNamed('/home');
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Icon(FontAwesomeIcons.google),
+          children: [
+            const Icon(FontAwesomeIcons.google),
             Text(
-              '  Sign In With Google ',
-              style: TextStyle(fontSize: 16),
+              '4'.tr,
+              style: const TextStyle(fontSize: 16),
             )
           ],
         ));
