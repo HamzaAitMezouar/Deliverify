@@ -96,19 +96,16 @@ class _RegisterPageState extends State<RegisterPage> {
                                       borderRadius: BorderRadius.circular(30)),
                                   fixedSize: Size(
                                       size.width * 0.6, size.height * 0.06)),
-                              onPressed: key.currentState != null &&
-                                      key.currentState!.validate()
-                                  ? () {
-                                      Get.snackbar('Login Failed',
-                                          "Verify Your Email and password");
-
-                                      setState(() {
+                              onPressed: () {
+                                key.currentState != null &&
+                                        key.currentState!.validate()
+                                    ? setState(() {
                                         x = 1;
                                         y = 1;
-                                      });
-                                      usersApi().login(email, password);
-                                    }
-                                  : null,
+                                      })
+                                    : null;
+                                usersApi().login(email, password);
+                              },
                               child: const Text('Login'))
                         ],
                       )
@@ -136,15 +133,15 @@ class _RegisterPageState extends State<RegisterPage> {
                                       borderRadius: BorderRadius.circular(30)),
                                   fixedSize: Size(
                                       size.width * 0.6, size.height * 0.06)),
-                              onPressed: key.currentState != null &&
-                                      key.currentState!.validate()
-                                  ? () {
-                                      setState(() {
+                              onPressed: () {
+                                key.currentState != null &&
+                                        key.currentState!.validate()
+                                    ? setState(() {
                                         x = 1;
                                         y = 1;
-                                      });
-                                    }
-                                  : null,
+                                      })
+                                    : null;
+                              },
                               child: const Text('Register')),
                         ],
                       )),
