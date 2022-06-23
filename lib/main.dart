@@ -4,6 +4,7 @@ import 'package:deliverify/src/pages/home.dart';
 import 'package:deliverify/src/pages/onboard_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'src/utils/themes.dart';
@@ -12,6 +13,9 @@ SharedPreferences? sharedPreferences;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   sharedPreferences = await SharedPreferences.getInstance();
+  Stripe.publishableKey =
+      'pk_test_51LDmmrFcy39zM7TraXXhbwFP1g6gZah3gwB6v2aznN61EFWsoGooCKHmMgHFWJpyZI9tKh8F9cPUjhipiNmat1uW00QedrqUUI';
+  await Stripe.instance.applySettings();
 
   runApp(Deliverify());
 }

@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:deliverify/src/Widgets/credit_card.dart';
+import 'package:deliverify/src/controllers/getxControllers/credit_card.dart';
 import 'package:deliverify/src/models/order_model.dart';
+import 'package:deliverify/src/pages/home.dart';
 import 'package:deliverify/src/utils/page_routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -10,6 +11,7 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../../main.dart';
 import '../controllers/sqlite/order.dart';
@@ -24,6 +26,7 @@ class MyOrders extends StatefulWidget {
 }
 
 class _MyOrdersState extends State<MyOrders> {
+  PaymentController paymentController = Get.put(PaymentController());
   OrdersSqlite ordersSqlite = OrdersSqlite();
   double total = 0;
   late FacebookModel user = FacebookModel(name: '', email: '', url: '');
@@ -94,8 +97,6 @@ class _MyOrdersState extends State<MyOrders> {
     getLocation();
     initUser();
     setMarkerIcon();
-    print(position.latitude);
-    print(position.longitude);
   }
 
   @override
@@ -119,6 +120,7 @@ Select * from "order" where "username" = "${user.name}"'''),
                   double prod = orders[i]['itemcount'] * orders[i]['itemprice'];
                   total = total + prod;
                 }
+
                 return total;
               }
 
@@ -273,9 +275,7 @@ Select * from "order" where "username" = "${user.name}"'''),
                                                     Card(
                                                       child: ListTile(
                                                         onTap: () {
-                                                          print('object');
-
-                                                          Get.to(CreditCard());
+                                                          print('object2');
                                                         },
                                                         leading: const Icon(
                                                             FontAwesomeIcons
@@ -378,7 +378,11 @@ Select * from "order" where "username" = "${user.name}"'''),
                                         primary: Colors.green,
                                         minimumSize: Size(size.width * 0.45,
                                             size.height * 0.05)),
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      paymentController.makePayment(
+                                          amount: total.toString(),
+                                          currency: 'USD');
+                                    },
                                     child: const Text('Order Now')),
                                 ElevatedButton(
                                     style: ElevatedButton.styleFrom(
@@ -389,8 +393,8 @@ Select * from "order" where "username" = "${user.name}"'''),
                                       OrdersSqlite().delete('''
 DELETE FROM "order" WHERE "username" = "${user.name}"
 ''');
-                                      Navigator.push(context,
-                                          ScaleRoute(child: MyOrders()));
+                                      Navigator.push(
+                                          context, ScaleRoute(child: home()));
                                     },
                                     child: const Text('Delete This Order')),
                               ],
