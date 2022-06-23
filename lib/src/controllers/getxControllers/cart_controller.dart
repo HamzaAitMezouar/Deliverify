@@ -2,7 +2,9 @@ import 'package:deliverify/src/models/restaurantsModel.dart';
 import 'package:get/get.dart';
 
 class CartController extends GetxController {
-  var _cat = {}.obs;
+  final _cat = {}.obs;
+
+  get keys => null;
   addCat(Cat cat) {
     if (_cat.containsKey(cat)) {
       _cat[cat] += 1;
@@ -10,19 +12,15 @@ class CartController extends GetxController {
       _cat[cat] = 1;
     }
     Get.snackbar(
-        'You Added an item to your list', 'You Ordered a ${cat.itemname} ',
-        snackPosition: SnackPosition.BOTTOM);
-    print(_cat.keys.toList()[0].itemprice);
+        duration: Duration(milliseconds: 200),
+        'You Added an item to your order',
+        'You Ordered a ${cat.itemname} ',
+        snackPosition: SnackPosition.TOP);
+    print(_cat.keys.toList());
     print(_cat.values.toList());
   }
 
-  get cat {
-    if (_cat.isEmpty) {
-      return;
-    } else {
-      return _cat;
-    }
-  }
+  get cat => _cat;
 
   /*get producttotal {
     for (int i = 0; i < _products.length; i++) {
@@ -31,16 +29,16 @@ class CartController extends GetxController {
       return prod.price! * _products.value[prod];
     }
   }
-
-  get total => _products.entries.isNotEmpty
-      ? _products.entries.map(((e) => e.key.price * e.value)).toList().reduce(
+*/
+  get total => _cat.entries.isNotEmpty
+      ? _cat.entries.map(((e) => e.key.itemprice * e.value)).toList().reduce(
           (value, element) {
             return value + element;
           },
         )
-      : '0';*/
+      : '0';
 
-  removeProduct(Cat cat) {
+  removecat(Cat cat) {
     if (_cat.containsKey(cat) && _cat[cat] == 1) {
       _cat.removeWhere((key, value) => key == cat);
     } else {

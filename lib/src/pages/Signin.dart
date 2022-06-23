@@ -1,6 +1,13 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:deliverify/main.dart';
 import 'package:deliverify/src/controllers/apis/facebookSignIn.dart';
 import 'package:deliverify/src/controllers/apis/googleSignIn.dart';
+import 'package:deliverify/src/models/facebookModel.dart';
+
+import 'package:deliverify/src/pages/home.dart';
 import 'package:deliverify/src/utils/Constants.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
@@ -128,8 +135,16 @@ class _SignInState extends State<SignIn> {
         style: ElevatedButton.styleFrom(
             primary: const Color.fromARGB(255, 16, 45, 173),
             fixedSize: Size(size.width * 0.8, size.height * 0.06)),
-        onPressed: () {
-          FacebookApi().signin();
+        onPressed: () async {
+          final FacebookModel? user = await FacebookApi().getUser();
+          if (user != null) {
+            sharedPreferences?.getString('user') == null
+                ? Get.snackbar('No User Found', '')
+                : Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => const home()));
+          } else {
+            Get.snackbar('No User Found', '');
+          }
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -148,9 +163,14 @@ class _SignInState extends State<SignIn> {
         style: ElevatedButton.styleFrom(
             primary: const Color.fromARGB(255, 219, 86, 76),
             fixedSize: Size(size.width * 0.8, size.height * 0.06)),
-        onPressed: () {
+        onPressed: () async {
           GoogleSigninApi.login();
-          Get.offAllNamed('/home');
+          /*GoogleModel userG = await GoogleSigninApi().getUser();
+          if (userG == null) {
+            Get.snackbar('No User found', '');
+          } else {
+            Navigator.pushReplacement(context, FadeRoute(child: const home()));
+          }*/
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

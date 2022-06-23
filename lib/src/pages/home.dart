@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:deliverify/main.dart';
 import 'package:deliverify/src/Widgets/NavBar.dart';
-import 'package:deliverify/src/controllers/getxControllers/FacebookController.dart';
+
 import 'package:deliverify/src/models/restaurantsModel.dart';
 import 'package:deliverify/src/pages/services/restuarants.dart';
 
@@ -36,7 +36,7 @@ class home extends StatefulWidget {
 class _homeState extends State<home> with SingleTickerProviderStateMixin {
   bool isClicked = false;
   double dragpercent = 0;
-  final controller = Get.put(FacebookController());
+
   String city = '';
   late FacebookModel user = FacebookModel(name: '', email: '', url: '');
   bool hasInternet = false;
@@ -53,6 +53,15 @@ class _homeState extends State<home> with SingleTickerProviderStateMixin {
   late Animation buttonsAnimation;
   late Animation degreeAnimation;
   String search = '';
+  late Future<List<ResturantModel>> restsfuture;
+// For Internet connectivity
+  checkConnection() async {
+    final bool hasInternet1 = await InternetConnectionChecker().hasConnection;
+    setState(() {
+      hasInternet = hasInternet1;
+    });
+  }
+
   // For user data
   initUser() {
     final pref = sharedPreferences!.getString('user');
@@ -61,14 +70,6 @@ class _homeState extends State<home> with SingleTickerProviderStateMixin {
 
     setState(() {
       user = userinit;
-    });
-  }
-
-// For Internet connectivity
-  checkConnection() async {
-    final bool hasInternet1 = await InternetConnectionChecker().hasConnection;
-    setState(() {
-      hasInternet = hasInternet1;
     });
   }
 
@@ -99,6 +100,7 @@ class _homeState extends State<home> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    restsfuture = ResturantsApi().getRestaurants('beni mellal');
     //Aniamtion
     animationController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 300));
@@ -234,8 +236,7 @@ class _homeState extends State<home> with SingleTickerProviderStateMixin {
                               ),
                               height: 200,
                               child: FutureBuilder<List<ResturantModel>>(
-                                  future: ResturantsApi()
-                                      .getRestaurants('beni mellal'),
+                                  future: restsfuture,
                                   builder: (context, snapshot) {
                                     if (!snapshot.hasData) {
                                       return Container();
@@ -398,7 +399,7 @@ class _homeState extends State<home> with SingleTickerProviderStateMixin {
                                                             child: Container(
                                                               width:
                                                                   size.width *
-                                                                      0.3,
+                                                                      0.35,
                                                               decoration: BoxDecoration(
                                                                   color: Colors
                                                                       .black
@@ -553,10 +554,13 @@ class _homeState extends State<home> with SingleTickerProviderStateMixin {
           child: Column(
             children: [
               Image.asset('assets/click.png', height: size.height * 0.05),
-              Text(
-                'Services',
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.ebGaramond(),
+              SizedBox(
+                height: size.height * 0.022,
+                child: Text(
+                  'Services',
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.ebGaramond(),
+                ),
               )
             ],
           ),
@@ -594,10 +598,13 @@ class _homeState extends State<home> with SingleTickerProviderStateMixin {
           child: Column(
             children: [
               Image.asset('assets/supermarket.png', height: size.height * 0.05),
-              Text(
-                'SuperMarket',
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.ebGaramond(),
+              SizedBox(
+                height: size.height * 0.022,
+                child: Text(
+                  'SuperMarket',
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.ebGaramond(),
+                ),
               )
             ],
           ),
@@ -632,10 +639,13 @@ class _homeState extends State<home> with SingleTickerProviderStateMixin {
           child: Column(
             children: [
               Image.asset('assets/rest.png', height: size.height * 0.05),
-              Text(
-                'Restaurants',
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.ebGaramond(),
+              SizedBox(
+                height: size.height * 0.022,
+                child: Text(
+                  'Restaurants',
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.ebGaramond(),
+                ),
               )
             ],
           ),
@@ -666,10 +676,13 @@ class _homeState extends State<home> with SingleTickerProviderStateMixin {
           child: Column(
             children: [
               Image.asset('assets/clothes.png', height: size.height * 0.05),
-              Text(
-                'Clothes',
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.ebGaramond(),
+              SizedBox(
+                height: size.height * 0.022,
+                child: Text(
+                  'Clothes',
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.ebGaramond(),
+                ),
               )
             ],
           ),
@@ -698,10 +711,13 @@ class _homeState extends State<home> with SingleTickerProviderStateMixin {
           child: Column(
             children: [
               Image.asset('assets/grocery.png', height: size.height * 0.05),
-              Text(
-                'Grocery',
-                overflow: TextOverflow.ellipsis,
-                style: GoogleFonts.ebGaramond(),
+              SizedBox(
+                height: size.height * 0.022,
+                child: Text(
+                  'Grocery',
+                  overflow: TextOverflow.ellipsis,
+                  style: GoogleFonts.ebGaramond(),
+                ),
               )
             ],
           ),

@@ -1,5 +1,10 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, deprecated_member_use
 
+import 'package:deliverify/main.dart';
+import 'package:deliverify/src/Widgets/My_Orders.dart';
+import 'package:deliverify/src/controllers/apis/facebookSignIn.dart';
+import 'package:deliverify/src/pages/Signin.dart';
+import 'package:deliverify/src/utils/page_routing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -112,15 +117,22 @@ class _NavBarState extends State<NavBar> {
                                   fontSize: 22, fontWeight: FontWeight.w600),
                             ),
                           ),
-
-                          bottomsheet(
-                              Icon(
+                          ListTile(
+                              leading: Icon(
                                 FontAwesomeIcons.bagShopping,
-                                color: Colors.green.withOpacity(0.5),
+                                color: Colors.green,
                               ),
-                              'My Orders',
-                              () {},
-                              const Icon(Icons.arrow_forward_ios)),
+                              title: Text('My Orders',
+                                  style: GoogleFonts.ebGaramond(
+                                      textStyle:
+                                          const TextStyle(fontSize: 18))),
+                              trailing: const Icon(Icons.arrow_forward_ios),
+                              onTap: () {
+                                print('myOrders');
+                                Navigator.push(
+                                    context, FadeRoute(child: MyOrders()));
+                              }),
+
                           bottomsheet(
                               const Icon(FontAwesomeIcons.circleInfo),
                               'My Information',
@@ -175,24 +187,29 @@ class _NavBarState extends State<NavBar> {
                             thickness: 1,
                             color: Theme.of(context).hintColor,
                           ),
-                          bottomsheet(
-                              const Icon(Icons.settings),
-                              'Settings',
-                              () {},
+                          bottomsheet(const Icon(Icons.settings), 'Settings',
+                              () {
+                            print('sett');
+                          },
                               const Icon(
                                 Icons.arrow_forward_ios,
                               )),
-                          bottomsheet(
-                              const Icon(
+                          ListTile(
+                              leading: const Icon(
                                 FontAwesomeIcons.signOut,
                                 color: Colors.red,
                               ),
-                              'Log Out',
-                              () {},
-                              const Icon(
-                                Icons.arrow_forward_ios,
-                                size: 0,
-                              )),
+                              title: Text('Log Out',
+                                  style: GoogleFonts.ebGaramond(
+                                      textStyle:
+                                          const TextStyle(fontSize: 18))),
+                              onTap: () {
+                                print('logout');
+                                FacebookApi().logout();
+                                sharedPreferences!.clear();
+                                Navigator.pushReplacement(
+                                    context, FadeRoute(child: SignIn()));
+                              }),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [const Text('version 00.00.00    ')],
